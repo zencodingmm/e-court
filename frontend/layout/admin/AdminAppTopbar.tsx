@@ -4,7 +4,6 @@ import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
 import { AppTopbarRef } from '../../types/types';
 import { LayoutContext } from '../context/layoutcontext';
-import { BiMessageRoundedDetail } from 'react-icons/bi';
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
