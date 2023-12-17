@@ -46,7 +46,7 @@ const AppMenuitem = (props: AppMenuItemProps) => {
     };
 
     const subMenu = item!.items && item!.visible !== false && (
-        <CSSTransition<HTMLElement | undefined>
+        <CSSTransition
             timeout={{ enter: 1000, exit: 450 }}
             classNames='layout-submenu'
             in={props.root ? true : active}
