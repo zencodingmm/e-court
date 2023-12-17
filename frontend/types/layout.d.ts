@@ -95,6 +95,8 @@ export interface AppMenuItem extends MenuModel {
     disabled?: boolean;
     replaceUrl?: boolean;
     command?: ({ originalEvent, item }: CommandProps) => void;
+    active?: boolean;
+    avatar?: boolean;
 }
 
 export interface AppMenuItemProps {
@@ -103,4 +105,6 @@ export interface AppMenuItemProps {
     index?: number;
     root?: boolean;
     className?: string;
+    active?: boolean;
+    avatar?: boolean;
 }

@@ -11,22 +11,22 @@ const items = [
 const cases = [
     {
         id: '1',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum sodales mi, non interdum nibh. Etiam est magna, suscipit a lacus at, scelerisque luctus ipsum. Aenean aliquam non dui nec pulvinar.',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         created_at: new Date()
     },
     {
         id: '2',
-        desc: 'Donec ac efficitur enim. Sed sem erat, volutpat vel iaculis eget, egestas pellentesque quam. Quisque bibendum congue feugiat. Duis id turpis orci. Nullam dictum imperdiet elit, et pretium nisi semper sit amet. In id metus sapien. Vestibulum sit amet ligula in enim congue molestie.',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         created_at: new Date()
     },
     {
         id: '3',
-        desc: 'Maecenas mattis rhoncus porttitor. Vivamus quis tincidunt libero, eu cursus ligula. Sed quis massa sit amet orci egestas congue et id odio. Etiam eleifend, diam vel ultricies ultrices, lorem orci blandit urna, id aliquet arcu quam vitae odio. In orci libero, euismod id dolor vel, vulputate tincidunt est.',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         created_at: new Date()
     },
     {
-        id: '1',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce interdum sodales mi, non interdum nibh. Etiam est magna, suscipit a lacus at, scelerisque luctus ipsum. Aenean aliquam non dui nec pulvinar.',
+        id: '4',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         created_at: new Date()
     }
 ];
@@ -78,8 +78,11 @@ const Dashboard = () => {
                         className='col-12 md:col-5 p-card p-5 cursor-pointer hover:surface-200 shadow-4'
                         key={value.id}
                     >
-                        <h1 className='text-xl font-bold'>
-                            Case No : <span>{value.id}</span>
+                        <h1
+                            className='text-xl font-bold border-bottom-1 pb-2'
+                            style={{ borderBottomStyle: 'dashed' }}
+                        >
+                            <span className='pi pi-fw pi-book'></span> Case No : <span>{value.id}</span>
                         </h1>
                         <p className='text-lg'>{value.desc}</p>
                         <span className='text-gray-600'>{new Date(value.created_at).toLocaleDateString()}</span>

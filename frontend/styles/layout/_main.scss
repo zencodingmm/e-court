@@ -25,3 +25,13 @@ a {
 .layout-wrapper {
     min-height: 100vh;
 }
+
+.video-layout {
+    width: calc(100vw - 9rem);
+    height: calc(100vh - 2rem);
+}
+
+.p-small-badge {
+    min-width: 1rem !important;
+    height: 1rem !important;
+}

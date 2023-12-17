@@ -5,17 +5,18 @@ import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Avatar } from 'primereact/avatar';
 import { useParams } from 'next/navigation';
+import { Badge } from 'primereact/badge';
 
 const ChatById = () => {
     const { id } = useParams();
 
     const users = [
-        { username: 'maung maung', id: 1 },
-        { username: 'aung aung', id: 2 },
-        { username: 'zaw zaw', id: 3 },
-        { username: 'kyaw kyaw', id: 4 },
-        { username: 'Hla Hla', id: 5 },
-        { username: 'Mya Mya', id: 6 }
+        { username: 'maung maung', id: 1, active: true },
+        { username: 'aung aung', id: 2, active: true },
+        { username: 'zaw zaw', id: 3, active: false },
+        { username: 'kyaw kyaw', id: 4, active: false },
+        { username: 'Hla Hla', id: 5, active: true },
+        { username: 'Mya Mya', id: 6, active: false }
     ];
 
     const findUser = users.find(user => user.id === Number(id));
@@ -27,9 +28,14 @@ const ChatById = () => {
                     <Avatar
                         label={findUser?.username.charAt(0).toUpperCase()}
                         size='large'
-                        className='bg-indigo-600 text-white'
+                        className='bg-indigo-600 text-white p-overlay-badge'
                         shape='circle'
-                    />
+                    >
+                        <Badge
+                            className='p-small-badge'
+                            severity='success'
+                        ></Badge>
+                    </Avatar>
                     <span className='text-lg text-900'>{findUser?.username}</span>
                 </div>
             </div>
