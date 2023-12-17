@@ -4,12 +4,12 @@
 import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks';
 import React, { useContext, useEffect, useRef } from 'react';
 import { classNames } from 'primereact/utils';
-import AppSidebar from './AppSidebar';
-import AppTopbar from './AppTopbar';
-import AppConfig from './AppConfig';
-import { LayoutContext } from './context/layoutcontext';
+import AdminAppMenu from './ChatAppMenu';
+import AdminAppTopbar from './ChatAppTopbar';
+import AppConfig from '../AppConfig';
+import { LayoutContext } from '../context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
-import { ChildContainerProps, LayoutState, AppTopbarRef } from '../types/types';
+import { ChildContainerProps, LayoutState, AppTopbarRef } from '../../types/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const Layout = ({ children }: ChildContainerProps) => {
@@ -127,14 +127,14 @@ const Layout = ({ children }: ChildContainerProps) => {
     return (
         <React.Fragment>
             <div className={containerClass}>
-                <AppTopbar ref={topbarRef} />
+                <AdminAppTopbar ref={topbarRef} />
                 <div
                     ref={sidebarRef}
-                    className='layout-sidebar'
+                    className='admin-layout-sidebar'
                 >
-                    <AppSidebar />
+                    <AdminAppMenu />
                 </div>
-                <div className='layout-main-container'>
+                <div className='admin-layout-main-container'>
                     <div className='layout-main'>{children}</div>
                 </div>
                 <AppConfig />

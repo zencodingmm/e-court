@@ -1,7 +1,7 @@
 import React from 'react';
-import AppMenuitem from './AppMenuitem';
-import { MenuProvider } from './context/menucontext';
-import { AppMenuItem } from '../types/types';
+import AppMenuitem from '../AppMenuitem';
+import { MenuProvider } from '../context/menucontext';
+import { AppMenuItem } from '../../types/types';
 
 const AppMenu = () => {
     const users = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import Layout from '../../layout/layout';
+import ChatLayout from '../../layout/chat/ChatLayout';
 
 interface AppLayoutProps {
     children: React.ReactNode;
@@ -16,5 +16,5 @@ export const metadata: Metadata = {
 };
 
 export default function AppLayout({ children }: AppLayoutProps) {
-    return <Layout>{children}</Layout>;
+    return <ChatLayout>{children}</ChatLayout>;
 }

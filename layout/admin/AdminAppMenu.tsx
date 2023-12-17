@@ -1,24 +1,10 @@
 import React from 'react';
-import AppMenuitem from './AppMenuitem';
-import { MenuProvider } from './context/menucontext';
-import { AppMenuItem } from '../types/types';
+import AppMenuitem from '../AppMenuitem';
+import { MenuProvider } from '../context/menucontext';
+import { AppMenuItem } from '../../types/types';
 
 const AppMenu = () => {
-    const users = [
-        { username: 'maung maung', id: 1 },
-        { username: 'aung aung', id: 2 },
-        { username: 'zaw zaw', id: 3 },
-        { username: 'kyaw kyaw', id: 4 },
-        { username: 'Hla Hla', id: 5 },
-        { username: 'Mya Mya', id: 6 }
-    ];
-
-    const model: AppMenuItem[] = [
-        {
-            label: 'Chat Lists',
-            items: users.map(user => ({ label: user.username, to: `/chat/${user.id}`, icon: 'pi pi-fw pi-user' }))
-        }
-    ];
+    const model: AppMenuItem[] = [{ label: 'Home', items: [{ label: 'e-filling', to: '/admin/e-filling', icon: 'pi pi-fw pi-home' }] }];
 
     return (
         <MenuProvider>

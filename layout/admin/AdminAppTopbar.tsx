@@ -2,10 +2,11 @@
 import Link from 'next/link';
 import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
-import { AppTopbarRef } from '../types/types';
-import { LayoutContext } from './context/layoutcontext';
+import { AppTopbarRef } from '../../types/types';
+import { LayoutContext } from '../context/layoutcontext';
+import { BiMessageRoundedDetail } from 'react-icons/bi';
 
-const AppTopbar = forwardRef<AppTopbarRef>((_, ref) => {
+const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
     const menubuttonRef = useRef(null);
     const topbarmenuRef = useRef(null);
@@ -20,7 +21,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((_, ref) => {
     return (
         <div className='layout-topbar'>
             <Link
-                href='/'
+                href='/admin'
                 className='layout-topbar-logo'
             >
                 <img
@@ -54,13 +55,6 @@ const AppTopbar = forwardRef<AppTopbarRef>((_, ref) => {
                 ref={topbarmenuRef}
                 className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}
             >
-                <Link
-                    href='/chat'
-                    className='p-link layout-topbar-button'
-                >
-                    <i className='pi pi-comments'></i>
-                    <span>Chat</span>
-                </Link>
                 <button
                     type='button'
                     className='p-link layout-topbar-button'
