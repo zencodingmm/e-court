@@ -45,6 +45,23 @@ const AppMenuitem = (props: AppMenuItemProps) => {
         else setActiveMenu(key);
     };
 
+    const transitionContent: () => React.ReactNode = () => (
+        <ul>
+            {item?.items &&
+                item!.items.map((child, i) => {
+                    return (
+                        <AppMenuitem
+                            item={child}
+                            index={i}
+                            className={child.badgeClass}
+                            parentKey={key}
+                            key={child.label}
+                        />
+                    );
+                })}
+        </ul>
+    );
+
     const subMenu = item!.items && item!.visible !== false && (
         <CSSTransition<HTMLElement>
             timeout={{ enter: 1000, exit: 450 }}
@@ -52,21 +69,7 @@ const AppMenuitem = (props: AppMenuItemProps) => {
             in={props.root ? true : active}
             key={item!.label}
         >
-            {() => (
-                <ul>
-                    {item!.items.map((child, i) => {
-                        return (
-                            <AppMenuitem
-                                item={child}
-                                index={i}
-                                className={child.badgeClass}
-                                parentKey={key}
-                                key={child.label}
-                            />
-                        );
-                    })}
-                </ul>
-            )}
+            {transitionContent}
         </CSSTransition>
     );
 
