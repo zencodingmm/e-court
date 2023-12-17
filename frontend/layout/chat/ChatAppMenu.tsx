@@ -5,18 +5,18 @@ import { AppMenuItem } from '../../types/types';
 
 const AppMenu = () => {
     const users = [
-        { username: 'maung maung', id: 1 },
-        { username: 'aung aung', id: 2 },
-        { username: 'zaw zaw', id: 3 },
-        { username: 'kyaw kyaw', id: 4 },
-        { username: 'Hla Hla', id: 5 },
-        { username: 'Mya Mya', id: 6 }
+        { username: 'maung maung', id: 1, active: true },
+        { username: 'aung aung', id: 2, active: true },
+        { username: 'zaw zaw', id: 3, active: false },
+        { username: 'kyaw kyaw', id: 4, active: false },
+        { username: 'Hla Hla', id: 5, active: true },
+        { username: 'Mya Mya', id: 6, active: false }
     ];
 
     const model: AppMenuItem[] = [
         {
             label: 'Chat Lists',
-            items: users.map(user => ({ label: user.username, to: `/chat/${user.id}`, icon: 'pi pi-fw pi-user' }))
+            items: users.map(user => ({ label: user.username, to: `/chat/${user.id}`, icon: 'p-overlay-badge', active: user.active, avatar: true }))
         }
     ];
 

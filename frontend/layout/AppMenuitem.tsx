@@ -8,6 +8,8 @@ import { CSSTransition } from 'react-transition-group';
 import { MenuContext } from './context/menucontext';
 import { AppMenuItemProps } from '../types/types';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { Badge } from 'primereact/badge';
+import { Avatar } from 'primereact/avatar';
 
 const AppMenuitem = (props: AppMenuItemProps) => {
     const pathname = usePathname();
@@ -61,6 +63,8 @@ const AppMenuitem = (props: AppMenuItemProps) => {
                             className={child.badgeClass}
                             parentKey={key}
                             key={child.label}
+                            active={child?.active}
+                            avatar={child?.avatar}
                         />
                     );
                 })}
@@ -95,7 +99,22 @@ const AppMenuitem = (props: AppMenuItemProps) => {
                     className={classNames(item!.class, 'p-ripple', { 'active-route': isActiveRoute })}
                     tabIndex={0}
                 >
-                    <i className={classNames('layout-menuitem-icon', item!.icon)}></i>
+                    {item!.avatar && (
+                        <Avatar
+                            className={classNames('layout-menuitem-icon', item!.icon)}
+                            shape='circle'
+                            size='large'
+                            label={item?.label.charAt(0).toUpperCase()}
+                        >
+                            {item!.active && (
+                                <Badge
+                                    severity='success'
+                                    className='p-small-badge'
+                                ></Badge>
+                            )}
+                        </Avatar>
+                    )}
+                    {!item!.avatar && <i className={classNames('layout-menuitem-icon', item!.icon)}></i>}
                     <span className='layout-menuitem-text'>{item!.label}</span>
                     {item!.items && <i className='pi pi-fw pi-angle-down layout-submenu-toggler'></i>}
                     <Ripple />
