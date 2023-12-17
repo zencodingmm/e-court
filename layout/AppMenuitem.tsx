@@ -52,21 +52,19 @@ const AppMenuitem = (props: AppMenuItemProps) => {
             in={props.root ? true : active}
             key={item!.label}
         >
-            {
-                <ul>
-                    {item!.items.map((child, i) => {
-                        return (
-                            <AppMenuitem
-                                item={child}
-                                index={i}
-                                className={child.badgeClass}
-                                parentKey={key}
-                                key={child.label}
-                            />
-                        );
-                    })}
-                </ul>
-            }
+            <ul>
+                {item!.items.map((child, i) => {
+                    return (
+                        <AppMenuitem
+                            item={child}
+                            index={i}
+                            className={child.badgeClass}
+                            parentKey={key}
+                            key={child.label}
+                        />
+                    );
+                })}
+            </ul>
         </CSSTransition>
     );
 
