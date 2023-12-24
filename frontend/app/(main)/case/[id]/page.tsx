@@ -71,9 +71,7 @@ const CaseById = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [dialogData, setDialogData] = useState<DialogData>();
 
-    const findedCase = cases.find(value => value.id === id);
-
-    console.log(id);
+    const foundCase = cases.find(value => value.id === id);
 
     return (
         <div
@@ -110,20 +108,20 @@ const CaseById = () => {
             </Dialog>
 
             <div className='w-full'>
-                <div className='w-full flex justify-content-between'>
-                    <div className='text-lg text-800 font-bold'>
-                        တင်သွင်းလွှာအမှတ် : <span className='font-normal'>{findedCase?.id}</span>
+                <div className='w-full flex flex-column gap-4 md:gap-0 md:flex-row justify-content-between'>
+                    <div className='text-lg text-800 font-bold border-bottom-1 md:border-bottom-none pb-3 md:pb-0'>
+                        တင်သွင်းလွှာအမှတ် : <span className='font-normal'>{foundCase?.id}</span>
                     </div>
 
-                    {findedCase?.created_at && (
-                        <div className='text-lg text-800 font-bold'>
-                            တင်သွင်းသည့်ရက်စွဲ : <span className='font-normal'>{new Date(findedCase?.created_at).toLocaleDateString()}</span>
+                    {foundCase?.created_at && (
+                        <div className='text-lg text-800 font-bold border-bottom-1 md:border-bottom-none pb-3 md:pb-0'>
+                            တင်သွင်းသည့်ရက်စွဲ : <span className='font-normal'>{new Date(foundCase?.created_at).toLocaleDateString()}</span>
                         </div>
                     )}
                 </div>
 
                 <div className='my-5'>
-                    <div className='text-lg text-800 font-bold my-3'>
+                    <div className='text-lg text-800 font-bold md:my-3 border-bottom-1 md:border-bottom-none pb-3 md:pb-0'>
                         တင်သွင်းသည့်ပုဂ္ဂိုလ် : <span className='font-normal text-lg'>maung maung</span>
                     </div>
                 </div>
@@ -131,7 +129,7 @@ const CaseById = () => {
                 <div className='my-5'>
                     <div className='text-lg text-800 font-bold my-3 border-bottom-1 pb-3'>တင်သွင်းသည့်အကြောင်းအရာ</div>
 
-                    <span className='font-normal'>{findedCase?.desc}</span>
+                    <span className='font-normal'>{foundCase?.desc}</span>
                 </div>
 
                 <div className='my-5'>
@@ -140,12 +138,12 @@ const CaseById = () => {
                     <span className='font-normal'>ထည့်သွင်းထားခြင်းမရှိပါ။</span>
                 </div>
 
-                <div className='my-5 border-top-1 border-bottom-1 py-3 flex justify-content-between'>
-                    <div className='text-lg text-800 font-bold '>
+                <div className='md:my-5 md:border-bottom-1 md:pb-3 md:flex justify-content-between'>
+                    <div className='text-lg text-800 font-bold border-bottom-1 md:border-bottom-none pb-3 md:pb-0 my-5 md:my-0'>
                         တင်သွင်းလွှာတင်သွင်းသည့်နေ့ : <span className='font-normal'>{new Date().toLocaleDateString()}</span>
                     </div>
 
-                    <div className='text-lg text-800 font-bold'>
+                    <div className='text-lg text-800 font-bold border-bottom-1 md:border-bottom-none pb-3 md:pb-0 my-5 md:my-0'>
                         အပြီးသတ်ဆုံးဖြတ်သည့်နေ့ : <span className='font-normal'>{new Date().toLocaleDateString()}</span>
                     </div>
                 </div>
@@ -153,7 +151,7 @@ const CaseById = () => {
                 <div className='my-5'>
                     <div className='text-lg text-800 font-bold my-3 border-bottom-1 pb-3'>မည်သို့ဆုံးဖြတ်သည်</div>
 
-                    <span className='font-normal'>{findedCase?.desc}</span>
+                    <span className='font-normal'>{foundCase?.desc}</span>
                 </div>
             </div>
 
@@ -165,7 +163,7 @@ const CaseById = () => {
                     <div className='col-12 grid gap-5 my-5'>
                         {casePdfs.map(item => (
                             <div
-                                className='col-12 md:col-3 bg-white p-card p-5 shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
+                                className='w-auto bg-white p-card p-5 shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
                                 key={item.id}
                             >
                                 <i className='pi pi-fw pi-file-pdf text-2xl text-red-800'></i>
@@ -178,10 +176,10 @@ const CaseById = () => {
                 <div className='col-12 my-5 border-bottom-1'>
                     <h4 className='text-lg'>Images</h4>
 
-                    <div className='col-12 grid gap-5 my-5'>
+                    <div className='col-12 grid justify-content-between gap-5 my-5'>
                         {caseImages.map(item => (
                             <div
-                                className='col-12 md:col-5 lg:col-3 bg-white p-card shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
+                                className='w-auto p-2 bg-white p-card shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
                                 key={item.id}
                                 onClick={() => {
                                     setDialogData({ type: 'image', filename: item.name });
@@ -191,7 +189,7 @@ const CaseById = () => {
                                 <Image
                                     src={item.name}
                                     alt={item.name}
-                                    className='w-full h-15rem md:h-10rem border-round-lg'
+                                    className='w-full h-18rem md:h-10rem border-round-lg'
                                     width={1920}
                                     height={1080}
                                     priority={true}

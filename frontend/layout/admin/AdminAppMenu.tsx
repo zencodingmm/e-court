@@ -7,10 +7,10 @@ const AppMenu = () => {
     const model: AppMenuItem[] = [
         { label: 'Home', items: [{ label: 'Dashboard', to: '/admin', icon: 'pi pi-fw pi-home' }] },
         {
-            label: 'တင်ပြလွှာ',
+            label: 'တင်သွင်းလွှာ',
             items: [
-                { label: 'တင်ပြလွှာ', to: '/admin/e-filling', icon: 'pi pi-fw pi-book' },
-                { label: 'တင်ပြလွှာများ', to: '/admin/e-filling/report', icon: 'pi pi-fw pi-book' }
+                { label: 'တင်သွင်းလွှာ', to: '/admin/e-filling', icon: 'pi pi-fw pi-book' },
+                { label: 'တင်သွင်းလွှာများ', to: '/admin/e-filling/report', icon: 'pi pi-fw pi-book' }
             ]
         }
     ];

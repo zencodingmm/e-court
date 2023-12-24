@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Ripple } from 'primereact/ripple';
 import { classNames } from 'primereact/utils';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { MenuContext } from './context/menucontext';
 import { AppMenuItemProps } from '../types/types';
@@ -24,6 +24,7 @@ const AppMenuitem = (props: AppMenuItemProps) => {
             setActiveMenu(key);
         }
     };
+    const nodeRef = useRef(null);
 
     useEffect(() => {
         onRouteChange(pathname);
@@ -49,12 +50,14 @@ const AppMenuitem = (props: AppMenuItemProps) => {
 
     const subMenu = item!.items && item!.visible !== false && (
         <CSSTransition
+            nodeRef={nodeRef}
             timeout={{ enter: 1000, exit: 450 }}
             classNames='layout-submenu'
             in={props.root ? true : active}
             key={item!.label}
         >
-            <ul>
+            {/*// @ts-ignore*/}
+            <ul ref={nodeRef}>
                 {item!.items.map((child, i) => {
                     return (
                         <AppMenuitem
