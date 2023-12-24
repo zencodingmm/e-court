@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';

@@ -15,7 +15,7 @@ const EFilling = () => {
 
     const [isSubmitted, setIsSubmitted] = useState(false);
 
-    const onSubmitHandler = (e: any) => {
+    const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setIsSubmitted(true);

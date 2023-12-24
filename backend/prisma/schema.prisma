@@ -1,0 +1,34 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tbl_e_filling {
+  case_id                     Int                           @id @default(autoincrement())
+  case_no                     Int                           @unique
+  date_of_submittion          DateTime                      @db.Date
+  description_of_submittion   String
+  submitting_person           String
+  interpretation_of_tribunal  String
+  date_of_submission          DateTime                      @db.Date
+  date_of_decision            DateTime                      @db.Date
+  decided                     String
+  tbl_attachment_of_e_filling tbl_attachment_of_e_filling[]
+}
+
+model tbl_attachment_of_e_filling {
+  attachment_id Int      @id @default(autoincrement())
+  case_id       Int
+  description   String
+  created_at    DateTime @default(now())
+  file_name     String
+
+  e_filling tbl_e_filling @relation(fields: [case_id], references: [case_id])
+}
