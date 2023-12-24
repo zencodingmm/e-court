@@ -4,7 +4,16 @@ import { MenuProvider } from '../context/menucontext';
 import { AppMenuItem } from '../../types/types';
 
 const AppMenu = () => {
-    const model: AppMenuItem[] = [{ label: 'Home', items: [{ label: 'e-filling', to: '/admin/e-filling', icon: 'pi pi-fw pi-home' }] }];
+    const model: AppMenuItem[] = [
+        { label: 'Home', items: [{ label: 'Dashboard', to: '/admin', icon: 'pi pi-fw pi-home' }] },
+        {
+            label: 'တင်ပြလွှာ',
+            items: [
+                { label: 'တင်ပြလွှာ', to: '/admin/e-filling', icon: 'pi pi-fw pi-book' },
+                { label: 'တင်ပြလွှာများ', to: '/admin/e-filling/report', icon: 'pi pi-fw pi-book' }
+            ]
+        }
+    ];
 
     return (
         <MenuProvider>
@@ -25,5 +34,4 @@ const AppMenu = () => {
         </MenuProvider>
     );
 };
-
 export default AppMenu;
