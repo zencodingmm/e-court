@@ -9,22 +9,22 @@ import { Dialog } from 'primereact/dialog';
 const cases = [
     {
         id: '1',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        desc: 'Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.',
         created_at: new Date()
     },
     {
         id: '2',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        desc: 'Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.',
         created_at: new Date()
     },
     {
         id: '3',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        desc: 'Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.',
         created_at: new Date()
     },
     {
         id: '4',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        desc: 'Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.Id cupidatat excepteur dolore ut duis consectetur officia amet pariatur cillum ex labore laboris aliquip. Duis Lorem quis dolore eu reprehenderit excepteur consectetur eiusmod minim commodo magna. Cillum adipisicing ullamco nulla officia culpa. Sit culpa ex id in dolor ad sit elit et tempor aliqua. Proident dolor laboris duis esse amet exercitation. Qui ut reprehenderit cupidatat laborum adipisicing reprehenderit. Qui tempor anim nulla aliquip Lorem adipisicing culpa veniam irure amet aliqua nulla.',
         created_at: new Date()
     }
 ];
@@ -108,86 +108,118 @@ const CaseById = () => {
                     />
                 )}
             </Dialog>
-            <div className='w-full border-bottom-2'>
+
+            <div className='w-full'>
                 <div className='w-full flex justify-content-between'>
-                    <div className='text-xl text-800 font-bold'>
-                        Case No : <span className='font-normal text-lg'>{findedCase?.id}</span>
+                    <div className='text-lg text-800 font-bold'>
+                        တင်သွင်းလွှာအမှတ် : <span className='font-normal'>{findedCase?.id}</span>
                     </div>
 
                     {findedCase?.created_at && (
-                        <div className='text-xl text-800 font-bold'>
-                            Date : <span className='font-normal text-lg'>{new Date(findedCase?.created_at).toLocaleDateString()}</span>
+                        <div className='text-lg text-800 font-bold'>
+                            တင်သွင်းသည့်ရက်စွဲ : <span className='font-normal'>{new Date(findedCase?.created_at).toLocaleDateString()}</span>
                         </div>
                     )}
                 </div>
 
                 <div className='my-5'>
-                    <div className='text-xl text-800 font-bold my-3'>
-                        Desc : <span className='font-normal text-lg'>{findedCase?.desc}</span>
+                    <div className='text-lg text-800 font-bold my-3'>
+                        တင်သွင်းသည့်ပုဂ္ဂိုလ် : <span className='font-normal text-lg'>maung maung</span>
                     </div>
                 </div>
-            </div>
 
-            <div className='w-full my-5 border-bottom-2'>
-                <h4 className='text-xl font-bold'>PDF Documents</h4>
+                <div className='my-5'>
+                    <div className='text-lg text-800 font-bold my-3 border-bottom-1 pb-3'>တင်သွင်းသည့်အကြောင်းအရာ</div>
 
-                <div className='w-full grid gap-5 my-5'>
-                    {casePdfs.map(item => (
-                        <div
-                            className='col-12 md:col-3 bg-gray-200 p-card p-5 shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
-                            key={item.id}
-                        >
-                            <i className='pi pi-fw pi-file-pdf text-2xl text-red-800'></i>
-                            <span className='ml-2 text-lg text-800'>{item.name}</span>
-                        </div>
-                    ))}
+                    <span className='font-normal'>{findedCase?.desc}</span>
+                </div>
+
+                <div className='my-5'>
+                    <div className='text-lg text-800 font-bold my-3 border-bottom-1 pb-3'>ခုံရုံး၏အနက်အဓိပ္ပာယ်ဖွင့်ဆိုလိုသည့်အကြောင်း</div>
+
+                    <span className='font-normal'>ထည့်သွင်းထားခြင်းမရှိပါ။</span>
+                </div>
+
+                <div className='my-5 border-top-1 border-bottom-1 py-3 flex justify-content-between'>
+                    <div className='text-lg text-800 font-bold '>
+                        တင်သွင်းလွှာတင်သွင်းသည့်နေ့ : <span className='font-normal'>{new Date().toLocaleDateString()}</span>
+                    </div>
+
+                    <div className='text-lg text-800 font-bold'>
+                        အပြီးသတ်ဆုံးဖြတ်သည့်နေ့ : <span className='font-normal'>{new Date().toLocaleDateString()}</span>
+                    </div>
+                </div>
+
+                <div className='my-5'>
+                    <div className='text-lg text-800 font-bold my-3 border-bottom-1 pb-3'>မည်သို့ဆုံးဖြတ်သည်</div>
+
+                    <span className='font-normal'>{findedCase?.desc}</span>
                 </div>
             </div>
 
-            <div className='w-full my-5 border-bottom-2'>
-                <h4 className='text-xl font-bold'>Images</h4>
+            <div className='col-12 bg-gray-50 border-round-2xl px-5 shadow-2 border-1'>
+                <h1 className='text-xl my-4 font-bold border-bottom-1 pb-5 text-center'>အမှုသွား/အမှုလာမှတ်တမ်းများ</h1>
+                <div className='col-12 my-5 border-bottom-1'>
+                    <h4 className='text-lg'>PDF Documents</h4>
 
-                <div className='w-full grid gap-5 my-5'>
-                    {caseImages.map(item => (
-                        <div
-                            className='col-12 md:col-5 lg:col-3 bg-gray-200 p-card shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
-                            key={item.id}
-                            onClick={() => {
-                                setDialogData({ type: 'image', filename: item.name });
-                                setIsVisible(true);
-                            }}
-                        >
-                            <Image
-                                src={item.name}
-                                alt={item.name}
-                                className='w-full h-15rem md:h-10rem border-round-lg'
-                                width={1920}
-                                height={1080}
-                                priority={true}
-                            />
-                        </div>
-                    ))}
+                    <div className='col-12 grid gap-5 my-5'>
+                        {casePdfs.map(item => (
+                            <div
+                                className='col-12 md:col-3 bg-white p-card p-5 shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
+                                key={item.id}
+                            >
+                                <i className='pi pi-fw pi-file-pdf text-2xl text-red-800'></i>
+                                <span className='ml-2 text-lg text-800'>{item.name}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            <div className='w-full my-5 border-bottom-2'>
-                <h4 className='text-xl font-bold'>Videos</h4>
+                <div className='col-12 my-5 border-bottom-1'>
+                    <h4 className='text-lg'>Images</h4>
 
-                <div className='w-full grid gap-5 my-5'>
-                    {caseVideos.map(item => (
-                        <div
-                            className='col-12 md:col-5 bg-gray-200 p-card shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
-                            key={item.id}
-                            onClick={() => {
-                                setDialogData({ type: 'video', filename: item.name });
-                                setIsVisible(true);
-                            }}
-                        >
-                            <video className='w-full'>
-                                <source src={item.name} />
-                            </video>
-                        </div>
-                    ))}
+                    <div className='col-12 grid gap-5 my-5'>
+                        {caseImages.map(item => (
+                            <div
+                                className='col-12 md:col-5 lg:col-3 bg-white p-card shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
+                                key={item.id}
+                                onClick={() => {
+                                    setDialogData({ type: 'image', filename: item.name });
+                                    setIsVisible(true);
+                                }}
+                            >
+                                <Image
+                                    src={item.name}
+                                    alt={item.name}
+                                    className='w-full h-15rem md:h-10rem border-round-lg'
+                                    width={1920}
+                                    height={1080}
+                                    priority={true}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className='col-12 my-5'>
+                    <h4 className='text-lg'>Videos</h4>
+
+                    <div className='col-12 grid gap-5 my-5'>
+                        {caseVideos.map(item => (
+                            <div
+                                className='col-12 md:col-5 bg-white p-card shadow-1 flex align-items-center hover:bg-gray-100 cursor-pointer hover:text-blue-500 hover:shadow-4'
+                                key={item.id}
+                                onClick={() => {
+                                    setDialogData({ type: 'video', filename: item.name });
+                                    setIsVisible(true);
+                                }}
+                            >
+                                <video className='col-12'>
+                                    <source src={item.name} />
+                                </video>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
