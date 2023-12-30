@@ -12,5 +12,6 @@
   "singleAttributePerLine": true,
   "embeddedLanguageFormatting": "auto",
   "bracketSpacing": true,
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "proseWrap": "preserve"
 }

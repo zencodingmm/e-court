@@ -10,25 +10,85 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tbl_e_filling {
-  case_id                     Int                           @id @default(autoincrement())
-  case_no                     Int                           @unique
-  date_of_submittion          DateTime                      @db.Date
-  description_of_submittion   String
-  submitting_person           String
-  interpretation_of_tribunal  String
-  date_of_submission          DateTime                      @db.Date
-  date_of_decision            DateTime                      @db.Date
-  decided                     String
-  tbl_attachment_of_e_filling tbl_attachment_of_e_filling[]
+model tbl_e_doc {
+  case_id                    Int       @id @default(autoincrement())
+  case_no                    String    @unique
+  date_of_submittion         DateTime  @db.Date
+  description_of_submittion  String?   @db.LongText
+  submitting_person          String?
+  interpretation_of_tribunal String?   @db.LongText
+  date_of_submission         DateTime? @db.Date
+  date_of_decision           DateTime? @db.Date
+  decided                    String?   @db.LongText
+  created_at                 DateTime  @default(now())
+  updated_at                 DateTime  @updatedAt
+
+  tbl_attachment_of_e_filling tbl_attachment_of_e_doc[]
 }
 
-model tbl_attachment_of_e_filling {
+model tbl_attachment_of_e_doc {
   attachment_id Int      @id @default(autoincrement())
   case_id       Int
   description   String
   created_at    DateTime @default(now())
   file_name     String
 
-  e_filling tbl_e_filling @relation(fields: [case_id], references: [case_id])
+  e_filling tbl_e_doc @relation(fields: [case_id], references: [case_id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model tbl_user_type {
+  user_type_id Int        @id @default(autoincrement())
+  type         String
+  description  String
+  tbl_user     tbl_user[]
+
+  @@unique([user_type_id, type, description])
+}
+
+model tbl_user {
+  user_id   Int     @id @default(autoincrement())
+  user_code String  @unique
+  user_name String
+  user_rank String
+  locked    Boolean @default(false)
+
+  user_type_id Int
+  type         String
+  description  String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user_type tbl_user_type @relation(fields: [user_type_id, type, description], references: [user_type_id, type, description], onDelete: Cascade, onUpdate: Cascade)
+
+  tbl_e_voting_result tbl_e_voting_result[]
+
+  @@unique([user_id, user_code, user_name, user_rank])
+}
+
+model tbl_e_vote {
+  e_vote_id   Int      @id @default(autoincrement())
+  description String   @db.VarChar(512)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  tbl_e_voting_result tbl_e_voting_result[]
+
+  @@unique([e_vote_id, description])
+}
+
+model tbl_e_voting_result {
+  voting_result_id Int      @id @default(autoincrement())
+  e_vote_id        Int
+  description      String   @db.VarChar(512)
+  user_id          Int
+  user_code        String
+  user_name        String
+  user_rank        String
+  result           Boolean
+  created_at       DateTime @default(now())
+  update_at        DateTime @updatedAt
+
+  e_vote tbl_e_vote @relation(fields: [e_vote_id, description], references: [e_vote_id, description], onDelete: Cascade, onUpdate: Cascade)
+  user   tbl_user   @relation(fields: [user_id, user_code, user_name, user_rank], references: [user_id, user_code, user_name, user_rank], onDelete: Cascade, onUpdate: Cascade)
 }
