@@ -9,7 +9,7 @@ import { Calendar } from 'primereact/calendar';
 import { FileUpload } from 'primereact/fileupload';
 import { InputText } from 'primereact/inputtext';
 
-const EfillingById = () => {
+const Attachment = () => {
     const router = useRouter();
 
     return (
@@ -42,7 +42,7 @@ const EfillingById = () => {
                 />
             </form>
 
-            <div className='card grid'>
+            <div className='card p-fluid grid'>
                 <div className='field col-12 md:col-4 lg:col-3'>
                     <label>အကြောင်းအရာ</label>
                     <InputText className='col-12' />
@@ -70,4 +70,4 @@ const EfillingById = () => {
     );
 };
 
-export default EfillingById;
+export default Attachment;

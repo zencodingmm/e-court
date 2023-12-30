@@ -5,7 +5,10 @@ import Link from 'next/link';
 const items = [
     { title: 'Lib', link: '/lib' },
     { title: 'Case Flow', link: '/case' },
-    { title: 'Other', link: 'other' }
+    { title: 'Live Streaming', link: 'live-streaming' },
+    { title: 'Other-1', link: 'other-1' },
+    { title: 'Other-2', link: 'other-2' },
+    { title: 'E-Vote', link: 'e-vote' }
 ];
 
 const cases = [
@@ -58,35 +61,43 @@ const Dashboard = () => {
                 <span className='font-bold text-xl'>အဖွဲ့ဝင် - ၁</span>
             </div>
 
-            <div className={`w-full grid ${cases.length > 1 ? 'justify-content-around' : 'justify-content-between'} gap-5 lg:gap-0 border-top-2 border-bottom-2 py-5 lg:px-5`}>
+            <div className='w-full grid border-top-2 border-bottom-2 py-5 lg:px-5'>
                 {items.map(item => (
-                    <Link
-                        href={item.link}
-                        className='col-12 md:col-5 lg:col-3 p-card p-5 cursor-pointer hover:surface-200 flex
-                        justify-content-center align-items-center shadow-4'
+                    <div
+                        className='col-4'
                         key={item.title}
                     >
-                        <span className='text-lg text-center text-900 font-bold'>{item.title}</span>
-                    </Link>
+                        <Link
+                            href={item.link}
+                            className='p-card p-5 cursor-pointer hover:surface-200 flex
+                        justify-content-center align-items-center shadow-4'
+                        >
+                            <span className='text-lg text-center text-900 font-bold'>{item.title}</span>
+                        </Link>
+                    </div>
                 ))}
             </div>
 
-            <div className={`w-full grid gap-5 ${cases.length > 1 && 'justify-content-around'} my-5 lg:px-5`}>
+            <div className='flex-1 grid py-5 lg:px-5'>
                 {cases.map(value => (
-                    <Link
-                        href={`/case/${value.id}`}
-                        className='col-12 md:col-5 p-card p-5 cursor-pointer hover:surface-200 shadow-4'
+                    <div
+                        className='col-6'
                         key={value.id}
                     >
-                        <h1
-                            className='text-xl font-bold border-bottom-1 pb-2'
-                            style={{ borderBottomStyle: 'dashed' }}
+                        <Link
+                            className='block p-card p-5 cursor-pointer hover:surface-200 shadow-4'
+                            href={`/case/${value.id}`}
                         >
-                            <span className='pi pi-fw pi-book'></span> Case No : <span>{value.id}</span>
-                        </h1>
-                        <p className='text-lg'>{value.desc}</p>
-                        <span className='text-gray-600'>{new Date(value.created_at).toLocaleDateString()}</span>
-                    </Link>
+                            <h1
+                                className='text-xl font-bold border-bottom-1 pb-2'
+                                style={{ borderBottomStyle: 'dashed' }}
+                            >
+                                <span className='pi pi-fw pi-book'></span> Case No : <span>{value.id}</span>
+                            </h1>
+                            <p className='text-lg'>{value.desc}</p>
+                            <span className='text-gray-600'>{new Date(value.created_at).toLocaleDateString()}</span>
+                        </Link>
+                    </div>
                 ))}
             </div>
         </div>
