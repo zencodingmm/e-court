@@ -27,7 +27,8 @@ const EDoc = () => {
         interpretation_of_tribunal: '',
         date_of_submission: undefined,
         date_of_decision: undefined,
-        decided: ''
+        decided: '',
+        current: false
     });
 
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -36,30 +37,19 @@ const EDoc = () => {
         setFormData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
     };
 
-    const restoreDefaultState = (data: string) => {
-        if (data) {
-            setFormData({
-                case_no: '',
-                date_of_submittion: new Date(),
-                description_of_submittion: '',
-                submitting_person: '',
-                interpretation_of_tribunal: '',
-                date_of_submission: undefined,
-                date_of_decision: undefined,
-                decided: ''
-            });
-        } else {
-            setFormData(prevState => ({
-                ...prevState,
-                date_of_submittion: new Date(),
-                description_of_submittion: '',
-                submitting_person: '',
-                interpretation_of_tribunal: '',
-                date_of_submission: undefined,
-                date_of_decision: undefined,
-                decided: ''
-            }));
-        }
+    const onResetHander = () => {
+        setFormData({
+            case_no: '',
+            date_of_submittion: new Date(),
+            description_of_submittion: '',
+            submitting_person: '',
+            interpretation_of_tribunal: '',
+            date_of_submission: undefined,
+            date_of_decision: undefined,
+            decided: '',
+            current: false
+        });
+        setIsSubmitted(false);
     };
 
     const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -71,7 +61,6 @@ const EDoc = () => {
 
             if (response.status === 201) {
                 toastRef.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
-                restoreDefaultState('submit');
                 setIsSubmitted(true);
             }
         } catch (error: any) {
@@ -81,6 +70,19 @@ const EDoc = () => {
                 detail: error.response.data.error,
                 life: 3000
             });
+        }
+    };
+
+    const routeHandler = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/e_doc/search?case_no=${formData.case_no}`);
+            const { data } = response.data;
+
+            if (response.status === 200) {
+                router.push(`${pathname}/${data.case_id}/attachment`);
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -208,16 +210,24 @@ const EDoc = () => {
 
                 <div className='col-12 flex justify-content-end align-items-center gap-5'>
                     <Button
+                        type='button'
                         icon='pi pi-fw pi-link'
                         className='w-auto'
                         label='Attachement'
                         disabled={!isSubmitted}
-                        onClick={() => router.push(pathname + '/attachment')}
+                        onClick={() => routeHandler()}
                     />
                     <Button
                         className='w-auto'
                         type='submit'
                         label='Submit'
+                    />
+                    <Button
+                        type='button'
+                        label='Reset'
+                        className='w-auto'
+                        severity='danger'
+                        onClick={() => onResetHander()}
                     />
                 </div>
             </form>

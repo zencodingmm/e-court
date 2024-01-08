@@ -17,16 +17,16 @@ const AppMenu = () => {
             label: 'အသုံးပြုသူများ',
             items: [
                 { label: 'အသုံးပြုသူအမျိုးအစား', to: '/admin/users/user-type', icon: 'pi pi-fw pi-user' },
-                { label: 'အသုံးပြုသူများထည့်သွင်းရန်', to: '/admin/users', icon: 'pi pi-fw pi-users' },
+                { label: 'အသုံးပြုသူများထည့်သွင်းရန်', to: '/admin/users', icon: 'pi pi-fw pi-user-plus' },
                 { label: 'အသုံးပြုသူများစာရင်း', to: '/admin/users/report', icon: 'pi pi-fw pi-users' }
             ]
         },
         {
             label: 'E-Vote',
             items: [
-                { label: 'မဲခွဲရန်အကြံပြုချက်တောင်းခံခြင်း', to: '/admin/e-vote', icon: 'pi pi-fw pi-envelope' },
                 { label: 'အကြောင်းအရာထည့်သွင်းရန်', to: '/admin/e-vote', icon: 'pi pi-fw pi-envelope' },
-                { label: 'မဲစာရင်း/အဖြေများ', to: '/admin/e-vote/report', icon: 'pi pi-fw pi-chart-bar' }
+                { label: 'မဲစာရင်း/အဖြေများ', to: '/admin/e-vote/report', icon: 'pi pi-fw pi-chart-bar' },
+                { label: 'အကြုံပြုချက်များ', to: '/admin/e-vote/comment', icon: 'pi pi-fw pi-envelope' }
             ]
         }
     ];

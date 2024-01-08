@@ -22,6 +22,7 @@ model tbl_e_doc {
   decided                    String?   @db.LongText
   created_at                 DateTime  @default(now())
   updated_at                 DateTime  @updatedAt
+  current                    Boolean   @default(false)
 
   tbl_attachment_of_e_filling tbl_attachment_of_e_doc[]
 }
@@ -32,6 +33,7 @@ model tbl_attachment_of_e_doc {
   description   String
   created_at    DateTime @default(now())
   file_name     String
+  file_type     String
 
   e_filling tbl_e_doc @relation(fields: [case_id], references: [case_id], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -46,11 +48,13 @@ model tbl_user_type {
 }
 
 model tbl_user {
-  user_id   Int     @id @default(autoincrement())
-  user_code String  @unique
-  user_name String
-  user_rank String
-  locked    Boolean @default(false)
+  user_id    Int     @id @default(autoincrement())
+  user_code  String  @unique
+  username   String  @unique
+  password   String
+  user_rank  String
+  user_image String?
+  locked     Boolean @default(false)
 
   user_type_id Int
   type         String
@@ -63,32 +67,61 @@ model tbl_user {
 
   tbl_e_voting_result tbl_e_voting_result[]
 
-  @@unique([user_id, user_code, user_name, user_rank])
+  @@unique([user_id, user_code, username, user_rank])
 }
 
 model tbl_e_vote {
   e_vote_id   Int      @id @default(autoincrement())
-  description String   @db.VarChar(512)
+  description String   @db.LongText
+  current     Boolean  @default(false)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
-  tbl_e_voting_result tbl_e_voting_result[]
+  tbl_e_voting_result   tbl_e_voting_result[]
+  tbl_e_vote_attachment tbl_e_vote_attachment[]
 
-  @@unique([e_vote_id, description])
+  @@unique([e_vote_id])
+}
+
+model tbl_e_vote_attachment {
+  attachment_id Int      @id @default(autoincrement())
+  e_vote_id     Int
+  file_name     String
+  file_type     String
+  created_at    DateTime @default(now())
+
+  e_vote tbl_e_vote @relation(fields: [e_vote_id], references: [e_vote_id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model tbl_e_voting_result {
-  voting_result_id Int      @id @default(autoincrement())
+  voting_result_id Int           @id @default(autoincrement())
   e_vote_id        Int
-  description      String   @db.VarChar(512)
   user_id          Int
   user_code        String
-  user_name        String
+  username         String
   user_rank        String
-  result           Boolean
-  created_at       DateTime @default(now())
-  update_at        DateTime @updatedAt
+  result           voting_result @default(not_support)
+  comment          String?       @db.LongText
+  created_at       DateTime      @default(now())
+  update_at        DateTime      @updatedAt
 
-  e_vote tbl_e_vote @relation(fields: [e_vote_id, description], references: [e_vote_id, description], onDelete: Cascade, onUpdate: Cascade)
-  user   tbl_user   @relation(fields: [user_id, user_code, user_name, user_rank], references: [user_id, user_code, user_name, user_rank], onDelete: Cascade, onUpdate: Cascade)
+  e_vote tbl_e_vote @relation(fields: [e_vote_id], references: [e_vote_id], onDelete: Cascade, onUpdate: Cascade)
+  user   tbl_user   @relation(fields: [user_id, user_code, username, user_rank], references: [user_id, user_code, username, user_rank], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model tbl_setting {
+  setting_id          Int      @id @default(autoincrement())
+  live_streaming_link String?
+  e_lib_link          String?
+  case_flow_link      String?
+  other_1             String?
+  other_2             String?
+  created_at          DateTime @default(now())
+  current             Boolean  @default(false)
+}
+
+enum voting_result {
+  support
+  neutral
+  not_support
 }

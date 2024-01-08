@@ -11,6 +11,7 @@ import { LayoutContext } from '../context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '../../types/types';
 import { usePathname, useSearchParams } from 'next/navigation';
+import AuthLayout from '../AuthLayout';
 
 const Layout = ({ children }: ChildContainerProps) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);

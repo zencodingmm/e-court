@@ -1,6 +1,7 @@
-'use client'
+'use client';
 import React, { useState, createContext } from 'react';
 import { LayoutState, ChildContainerProps, LayoutConfig, LayoutContextProps } from '../../types/types';
+import AuthLayout from '../AuthLayout';
 export const LayoutContext = createContext({} as LayoutContextProps);
 
 export const LayoutProvider = ({ children }: ChildContainerProps) => {
@@ -24,18 +25,18 @@ export const LayoutProvider = ({ children }: ChildContainerProps) => {
 
     const onMenuToggle = () => {
         if (isOverlay()) {
-            setLayoutState((prevLayoutState) => ({ ...prevLayoutState, overlayMenuActive: !prevLayoutState.overlayMenuActive }));
+            setLayoutState(prevLayoutState => ({ ...prevLayoutState, overlayMenuActive: !prevLayoutState.overlayMenuActive }));
         }
 
         if (isDesktop()) {
-            setLayoutState((prevLayoutState) => ({ ...prevLayoutState, staticMenuDesktopInactive: !prevLayoutState.staticMenuDesktopInactive }));
+            setLayoutState(prevLayoutState => ({ ...prevLayoutState, staticMenuDesktopInactive: !prevLayoutState.staticMenuDesktopInactive }));
         } else {
-            setLayoutState((prevLayoutState) => ({ ...prevLayoutState, staticMenuMobileActive: !prevLayoutState.staticMenuMobileActive }));
+            setLayoutState(prevLayoutState => ({ ...prevLayoutState, staticMenuMobileActive: !prevLayoutState.staticMenuMobileActive }));
         }
     };
 
     const showProfileSidebar = () => {
-        setLayoutState((prevLayoutState) => ({ ...prevLayoutState, profileSidebarVisible: !prevLayoutState.profileSidebarVisible }));
+        setLayoutState(prevLayoutState => ({ ...prevLayoutState, profileSidebarVisible: !prevLayoutState.profileSidebarVisible }));
     };
 
     const isOverlay = () => {
@@ -55,5 +56,9 @@ export const LayoutProvider = ({ children }: ChildContainerProps) => {
         showProfileSidebar
     };
 
-    return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
+    return (
+        <AuthLayout>
+            <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>
+        </AuthLayout>
+    );
 };

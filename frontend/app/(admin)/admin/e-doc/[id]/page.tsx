@@ -13,6 +13,7 @@ import { Toast } from 'primereact/toast';
 import axiosInstance from '../../../../../utils/axiosInstance';
 
 import { EDocument, OnChangeEvent } from '../../../../../types/ecourt';
+import { Checkbox } from 'primereact/checkbox';
 
 const EDocById = () => {
     const router = useRouter();
@@ -23,56 +24,32 @@ const EDocById = () => {
     const [formData, setFormData] = useState<EDocument>({
         case_no: '',
         date_of_submittion: new Date(),
-        description_of_submittion: undefined,
-        submitting_person: undefined,
-        interpretation_of_tribunal: undefined,
+        description_of_submittion: '',
+        submitting_person: '',
+        interpretation_of_tribunal: '',
         date_of_submission: undefined,
         date_of_decision: undefined,
-        decided: undefined
+        decided: '',
+        current: false
     });
 
     const onChangeHandler = (e: OnChangeEvent) => {
         setFormData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
     };
 
-    const restoreDefaultState = (data: string) => {
-        if (data) {
-            setFormData({
-                case_no: '',
-                date_of_submittion: new Date(),
-                description_of_submittion: undefined,
-                submitting_person: undefined,
-                interpretation_of_tribunal: undefined,
-                date_of_submission: undefined,
-                date_of_decision: undefined,
-                decided: undefined
-            });
-        } else {
-            setFormData(prevState => ({
-                ...prevState,
-                date_of_submittion: new Date(),
-                description_of_submittion: undefined,
-                submitting_person: undefined,
-                interpretation_of_tribunal: undefined,
-                date_of_submission: undefined,
-                date_of_decision: undefined,
-                decided: undefined
-            }));
-        }
-    };
-
     const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            const response = await axiosInstance.post('/api/e_doc', formData);
+            const response = await axiosInstance.put(`/api/e_doc/${id}`, formData);
             const { message } = response.data;
 
             if (response.status === 201) {
                 toastRef.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
-                restoreDefaultState('submit');
+                router.back();
             }
         } catch (error: any) {
+            console.log(error);
             toastRef.current?.show({
                 severity: 'error',
                 summary: 'Error',
@@ -89,14 +66,14 @@ const EDocById = () => {
 
             const newFormData = {
                 ...data,
-                case_no: data.case_no ? data.case_no : undefined,
+                case_no: data.case_no ? data.case_no : '',
                 date_of_submittion: new Date(data.date_of_submittion),
-                description_of_submittion: data.description_of_submittion ? data.description_of_submittion : undefined,
-                submitting_person: data.submitting_person ? data.submitting_person : undefined,
-                interpretation_of_tribunal: data.interpretation_of_tribunal ? data.interpretation_of_tribunal : undefined,
+                description_of_submittion: data.description_of_submittion ? data.description_of_submittion : '',
+                submitting_person: data.submitting_person ? data.submitting_person : '',
+                interpretation_of_tribunal: data.interpretation_of_tribunal ? data.interpretation_of_tribunal : '',
                 date_of_submission: data.date_of_submission && new Date(data.date_of_submission),
                 date_of_decision: data.date_of_decision && new Date(data.date_of_decision),
-                decided: data.decided ? data.decided : undefined
+                decided: data.decided ? data.decided : ''
             };
 
             if (response.status === 200) {
