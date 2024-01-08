@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'http',
-                hostname: process.env.NEXT_PUBLIC_BACKEND_HOST,
+                hostname: '192.168.1.3',
                 port: '4000',
                 pathname: '/**/*'
             }
