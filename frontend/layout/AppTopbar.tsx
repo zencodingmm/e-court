@@ -4,6 +4,7 @@ import { classNames } from 'primereact/utils';
 import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
 import { AppTopbarRef } from '../types/types';
 import { LayoutContext } from './context/layoutcontext';
+import { signOut } from 'next-auth/react';
 
 const AppTopbar = forwardRef<AppTopbarRef>((_, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
@@ -64,9 +65,10 @@ const AppTopbar = forwardRef<AppTopbarRef>((_, ref) => {
                 <button
                     type='button'
                     className='p-link layout-topbar-button'
+                    onClick={() => signOut()}
                 >
-                    <i className='pi pi-user'></i>
-                    <span>Profile</span>
+                    <i className='pi pi-sign-out'></i>
+                    <span>Sign Out</span>
                 </button>
             </div>
         </div>

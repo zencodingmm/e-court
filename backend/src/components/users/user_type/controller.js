@@ -3,7 +3,6 @@ const prisma = require('../../../config/database');
 exports.getAllHandler = async (req, res) => {
     try {
         const { page, page_size } = req.query;
-        const skip = Number(page) * Number(page_size);
 
         if (!page && !page_size) {
             const result = await prisma.tbl_user_type.findMany();
@@ -15,7 +14,7 @@ exports.getAllHandler = async (req, res) => {
             const [result, totalRecord] = await prisma
                 .$transaction([
                     prisma.tbl_user_type.findMany({
-                        skip,
+                        skip: Number(page),
                         take: Number(page_size)
                     }),
                     prisma.tbl_user_type.count()
@@ -25,7 +24,7 @@ exports.getAllHandler = async (req, res) => {
                     throw new Error('Something Wrong!');
                 });
 
-            if (totalRecord === 0) {
+            if (totalRecord === 0 || result.length === 0) {
                 throw new Error('User Type is not found!');
             }
 

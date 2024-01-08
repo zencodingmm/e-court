@@ -10,9 +10,12 @@ import AppConfig from '../AppConfig';
 import { LayoutContext } from '../context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '../../types/types';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import { useSession } from 'next-auth/react';
 
 const Layout = ({ children }: ChildContainerProps) => {
+    const router = useRouter();
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
     const { setRipple } = useContext(PrimeReactContext);
     const topbarRef = useRef<AppTopbarRef>(null);
@@ -123,6 +126,16 @@ const Layout = ({ children }: ChildContainerProps) => {
         'p-input-filled': layoutConfig.inputStyle === 'filled',
         'p-ripple-disabled': !layoutConfig.ripple
     });
+
+    const { data, status } = useSession();
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            if (data?.user.type && data?.user.type !== 'admin') {
+                router.replace('/');
+            }
+        }
+    }, [data, status]);
 
     return (
         <React.Fragment>

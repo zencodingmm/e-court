@@ -2,19 +2,28 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useRouter, usePathname } from 'next/navigation';
+
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
-import { DataTable, DataTableRowEditCompleteEvent } from 'primereact/datatable';
-import { Column, ColumnEditorOptions } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 import axiosInstance from '../../../../utils/axiosInstance';
 import { EVote } from '../../../../types/ecourt';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Checkbox } from 'primereact/checkbox';
 
 const EVotePage = () => {
+    const router = useRouter();
+    const pathname = usePathname();
+
     const [inputValue, setInputValue] = useState<string>('');
     const [data, setData] = useState<EVote[] | undefined>();
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
     const toastRef = useRef<Toast>(null);
 
     const [rows, setRows] = useState(10);
@@ -29,29 +38,25 @@ const EVotePage = () => {
             const { message } = response.data;
 
             if (response.status === 201) {
+                setIsSubmitted(true);
                 fetchData().catch(error => console.log(error));
                 toastRef.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 300 });
-                setInputValue('');
             }
         } catch (error: any) {
             toastRef.current?.show({ severity: 'error', summary: 'Error', detail: error.response.data.error });
         }
     };
 
-    const onUpdateHandler = async (e: DataTableRowEditCompleteEvent) => {
-        try {
-            const { newData } = e;
-
-            const response = await axiosInstance.put(`/api/e_vote/${newData.e_vote_id}`, newData);
-            const { message } = response.data;
-
-            if (response.status === 200) {
-                fetchData().catch(error => console.log(error));
-                toastRef.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 300 });
+    const confirmDelete = (id: number | undefined) => {
+        confirmDialog({
+            header: 'Delete Confirmation',
+            message: 'Do you want to delete this record',
+            contentClassName: 'border-noround',
+            acceptClassName: 'p-button-danger',
+            accept() {
+                onDeleteHandler(id).catch(error => console.log(error));
             }
-        } catch (error: any) {
-            toastRef.current?.show({ severity: 'error', summary: 'Error', detail: error.response.data.error });
-        }
+        });
     };
 
     const onDeleteHandler = async (id: number | undefined) => {
@@ -68,14 +73,43 @@ const EVotePage = () => {
         }
     };
 
-    const InputTextEditor = (option: ColumnEditorOptions) => (
-        <InputTextarea
-            value={option.value}
-            className='col-12'
-            autoResize
-            onChange={e => option.editorCallback?.(e.target.value)}
-        />
-    );
+    const onChangeCheckboxHandler = async (value: boolean | undefined, data: EVote) => {
+        try {
+            const response = await axiosInstance.put(`/api/e_vote/${data.e_vote_id}`, { ...data, current: value });
+
+            if (response.status === 201) {
+                fetchData().catch(error => console.log(error));
+            }
+        } catch (error: any) {
+            confirmDialog({
+                header: 'Duplicate',
+                message: error.response.data.error,
+                contentClassName: 'border-noround',
+                acceptClassName: 'p-button-danger',
+                acceptLabel: 'Turn on',
+                async accept() {
+                    const response = await axiosInstance.put(`/api/e_vote/${data.e_vote_id}?force=${true}`, { ...data, current: value });
+
+                    if (response.status === 201) {
+                        fetchData().catch(error => console.log(error));
+                    }
+                }
+            });
+        }
+    };
+
+    const routeHandler = async () => {
+        try {
+            const response = await axiosInstance.get(`/api/e_vote/search?desc=${inputValue}`);
+            const { data } = response.data;
+
+            if (response.status === 200) {
+                router.push(`${pathname}/${data.e_vote_id}/attachment`);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const fetchData = useCallback(async () => {
         setIsLoading(true);
@@ -90,6 +124,10 @@ const EVotePage = () => {
                 setIsLoading(false);
             }
         } catch (error) {
+            if (first > 0) {
+                setFirst(prevState => prevState - 10);
+            }
+
             setData(undefined);
             setTotalRecord(0);
             setIsLoading(false);
@@ -103,6 +141,7 @@ const EVotePage = () => {
     return (
         <div>
             <Toast ref={toastRef} />
+            <ConfirmDialog />
             <h1 className='text-2xl underline mb-6'>E-Vote</h1>
 
             <div className='card'>
@@ -121,11 +160,25 @@ const EVotePage = () => {
                         />
                     </div>
 
-                    <div className='flex-1 flex justify-content-end'>
+                    <div className='flex-1 flex justify-content-end gap-5'>
+                        <Button
+                            type='button'
+                            label='Attachment'
+                            className='w-auto'
+                            disabled={!isSubmitted}
+                            onClick={routeHandler}
+                        />
                         <Button
                             type='submit'
                             label='Save'
                             className='w-auto'
+                        />
+                        <Button
+                            type='button'
+                            label='Reset'
+                            className='w-auto'
+                            severity='danger'
+                            onClick={() => setInputValue('')}
                         />
                     </div>
                 </form>
@@ -155,9 +208,15 @@ const EVotePage = () => {
                                 setFirst(e.first);
                                 setRows(e.rows);
                             }}
-                            editMode='row'
-                            onRowEditComplete={onUpdateHandler}
                         >
+                            <Column
+                                body={(data: EVote) => (
+                                    <Checkbox
+                                        checked={data.current}
+                                        onChange={e => onChangeCheckboxHandler(e.checked, data)}
+                                    />
+                                )}
+                            />
                             <Column
                                 header='No'
                                 body={(_, options) => options.rowIndex + 1}
@@ -165,7 +224,6 @@ const EVotePage = () => {
                             <Column
                                 field='description'
                                 header='Vote Description'
-                                editor={InputTextEditor}
                             />
                             <Column
                                 field='created_at'
@@ -175,7 +233,15 @@ const EVotePage = () => {
 
                             <Column
                                 align='center'
-                                rowEditor
+                                body={(data: EVote) => (
+                                    <Button
+                                        icon='pi pi-pencil'
+                                        rounded
+                                        text
+                                        severity='secondary'
+                                        onClick={() => router.push(`${pathname}/${data.e_vote_id}`)}
+                                    />
+                                )}
                             />
                             <Column
                                 align='center'
@@ -185,7 +251,7 @@ const EVotePage = () => {
                                         rounded
                                         text
                                         severity='danger'
-                                        onClick={() => onDeleteHandler(data.e_vote_id)}
+                                        onClick={() => confirmDelete(data.e_vote_id)}
                                     />
                                 )}
                             />

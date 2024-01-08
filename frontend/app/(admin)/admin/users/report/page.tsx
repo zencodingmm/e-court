@@ -4,12 +4,15 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+import { useSession } from 'next-auth/react';
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { Tag } from 'primereact/tag';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
 import { User } from '../../../../../types/ecourt';
 import axiosInstance from '../../../../../utils/axiosInstance';
@@ -18,12 +21,25 @@ const UserReport = () => {
     const router = useRouter();
     const [data, setData] = useState<User[] | undefined>();
     const toastRef = useRef<Toast>(null);
+    const { data: session } = useSession();
 
     const [rows, setRows] = useState(10);
     const [first, setFirst] = useState(0);
     const [page, setPage] = useState(0);
     const [totalRecord, setTotalRecord] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+
+    const confirmDelete = (id: number | undefined) => {
+        confirmDialog({
+            header: 'Delete Confirmation',
+            message: 'Do you want to delete this record',
+            contentClassName: 'border-noround',
+            acceptClassName: 'p-button-danger',
+            accept() {
+                onDeleteHandler(id).catch(error => console.log(error));
+            }
+        });
+    };
 
     const onDeleteHandler = async (id: number | undefined) => {
         try {
@@ -38,29 +54,48 @@ const UserReport = () => {
                 toastRef.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
             }
         } catch (error: any) {
-            toastRef.current?.show({ severity: 'error', summary: 'Error', detail: error.response.data.error, life: 3000 });
+            toastRef.current?.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: error.response.data.error,
+                life: 3000
+            });
         }
     };
 
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
-            console.log('working...');
             const response = await axiosInstance.get(`/api/user?page=${page}&page_size=${rows}`);
             const { data, totalRecord } = response.data;
 
             if (response.status === 200) {
-                setData(data);
-                setTotalRecord(totalRecord);
-                setIsLoading(false);
+                if (data) {
+                    // const filterUser = data.filter((user: User) => user.user_code !== session?.user.user_code);
+
+                    // if (filterUser.length > 0) {
+                    //     setData(filterUser);
+                    // } else {
+                    //     setData(data);
+                    // }
+                    setData(data);
+
+                    setTotalRecord(totalRecord);
+                    setIsLoading(false);
+                }
             }
         } catch (error) {
+            if (page > 0) {
+                setPage(prevState => prevState - 1);
+                setFirst(prevState => prevState - 1);
+            }
+
             setIsLoading(false);
             setData(undefined);
             setTotalRecord(0);
             console.log(error);
         }
-    }, [rows, page]);
+    }, [rows, page, session]);
 
     useEffect(() => {
         fetchData().catch(error => console.log(error));
@@ -70,6 +105,7 @@ const UserReport = () => {
         <div>
             <Toast ref={toastRef} />
             <h1 className='text-2xl underline mb-6'>အသုံးပြုသူများစာရင်း</h1>
+            <ConfirmDialog />
 
             <div className='card'>
                 {isLoading && (
@@ -107,7 +143,7 @@ const UserReport = () => {
                             header='Code Number'
                         />
                         <Column
-                            field='user_name'
+                            field='username'
                             header='အမည်'
                         />
                         <Column
@@ -135,19 +171,20 @@ const UserReport = () => {
                                     icon='pi pi-pencil'
                                     text
                                     rounded
+                                    severity='secondary'
                                     onClick={() => router.push(`/admin/users/${data.user_id}`)}
                                 />
                             )}
                         />
                         <Column
                             align='center'
-                            body={data => (
+                            body={(data: User) => (
                                 <Button
                                     icon='pi pi-trash'
                                     text
                                     rounded
                                     severity='danger'
-                                    onClick={() => onDeleteHandler(data.user_id)}
+                                    onClick={() => confirmDelete(data.user_id)}
                                 />
                             )}
                         />

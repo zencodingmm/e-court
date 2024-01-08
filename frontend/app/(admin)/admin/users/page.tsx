@@ -2,11 +2,14 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import Image from 'next/image';
+
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { FileUpload } from 'primereact/fileupload';
 
 import { OnChangeEvent, User, UserType } from '../../../../types/ecourt';
 import axiosInstance from '../../../../utils/axiosInstance';
@@ -14,7 +17,8 @@ import axiosInstance from '../../../../utils/axiosInstance';
 const Users = () => {
     const [userData, setUserData] = useState<User>({
         user_code: '',
-        user_name: '',
+        username: '',
+        password: '',
         user_rank: '',
         locked: false,
         user_type_id: undefined,
@@ -22,14 +26,17 @@ const Users = () => {
         description: ''
     });
     const [userTypeData, setUserTypeData] = useState<UserType[] | []>([]);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const dropdownValue = userTypeData.find(value => value.user_type_id === userData.user_type_id);
     const toastRef = useRef<Toast>(null);
+    const fileuploadRef = useRef<FileUpload>(null);
 
     const restoreDefaultState = () => {
         setUserData({
             user_code: '',
-            user_name: '',
+            username: '',
+            password: '',
             user_rank: '',
             locked: false,
             user_type_id: undefined,
@@ -46,12 +53,13 @@ const Users = () => {
         e.preventDefault();
 
         try {
-            const response = await axiosInstance.post('/api/user', userData);
+            const response = await axiosInstance.post('/api/user', userData, { headers: { 'Content-Type': 'multipart/form-data' } });
             const { message } = response.data;
 
             if (response.status === 201) {
                 toastRef.current?.show({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
                 restoreDefaultState();
+                fileuploadRef.current?.clear();
             }
         } catch (error: any) {
             toastRef.current?.show({
@@ -60,6 +68,7 @@ const Users = () => {
                 detail: error.response.data.error,
                 life: 3000
             });
+            console.log(error);
         }
     };
 
@@ -80,6 +89,36 @@ const Users = () => {
         fetchUserTypeData().catch(error => console.log(error));
     }, [fetchUserTypeData]);
 
+    const profileTemplate = () => {
+        if (userData?.user_image === undefined || userData?.user_image === null) {
+            return (
+                <Image
+                    src='/assets/images/user-profile.jpg'
+                    alt='user profile'
+                    style={{ objectFit: 'cover' }}
+                    className='w-full h-full'
+                    width={1920}
+                    height={1080}
+                    priority={true}
+                />
+            );
+        }
+
+        if (userData.user_image?.objectURL) {
+            return (
+                <Image
+                    src={userData.user_image.objectURL}
+                    alt='user profile'
+                    style={{ objectFit: 'cover' }}
+                    className='w-full h-full'
+                    width={1920}
+                    height={1080}
+                    priority={true}
+                />
+            );
+        }
+    };
+
     return (
         <div>
             <Toast ref={toastRef} />
@@ -90,22 +129,24 @@ const Users = () => {
                     className='p-fluid formgrid grid'
                     onSubmit={onSubmitHandler}
                 >
+                    <div className='field col-12 flex flex-column align-items-center'>
+                        <div className='w-10rem h-10rem border-3 border-circle overflow-hidden relative my-3'>{profileTemplate()}</div>
+
+                        <div>
+                            <FileUpload
+                                ref={fileuploadRef}
+                                mode='basic'
+                                onSelect={e => setUserData(prevState => ({ ...prevState, user_image: e.files[0] }) as User)}
+                                uploadOptions={{ style: { display: 'none' } }}
+                            />
+                        </div>
+                    </div>
                     <div className='field col-12 md:col-6'>
                         <label htmlFor='user_code'>User Code</label>
                         <InputText
                             value={userData.user_code}
                             name='user_code'
                             id='user_code'
-                            onChange={onChangeHandler}
-                        />
-                    </div>
-
-                    <div className='field col-12 md:col-6'>
-                        <label htmlFor='user_name'>Username</label>
-                        <InputText
-                            value={userData.user_name}
-                            name='user_name'
-                            id='user_name'
                             onChange={onChangeHandler}
                         />
                     </div>
@@ -128,6 +169,35 @@ const Users = () => {
                     </div>
 
                     <div className='field col-12 md:col-6'>
+                        <label htmlFor='username'>Username</label>
+                        <InputText
+                            value={userData.username}
+                            name='username'
+                            id='username'
+                            onChange={onChangeHandler}
+                        />
+                    </div>
+
+                    <div className='field col-12 md:col-6'>
+                        <label htmlFor='password'>Password</label>
+                        <div className='p-inputgroup'>
+                            <InputText
+                                value={userData.password}
+                                name='password'
+                                id='password'
+                                onChange={onChangeHandler}
+                                type={showPassword ? 'text' : 'password'}
+                            />
+                            <Button
+                                type='button'
+                                icon={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}
+                                severity='secondary'
+                                onClick={() => setShowPassword(!showPassword)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className='field col-12'>
                         <label>User Rank</label>
                         <InputText
                             value={userData.user_rank}
