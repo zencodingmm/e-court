@@ -15,7 +15,6 @@ import { EVote, EVoteResult } from '../../../../../types/ecourt';
 import axiosInstance from '../../../../../utils/axiosInstance';
 
 const Comment = () => {
-    const router = useRouter();
     const [evote, setEvote] = useState<EVote | undefined>();
     const [data, setData] = useState<EVoteResult[] | undefined>();
     const toastRef = useRef<Toast>(null);
@@ -163,7 +162,7 @@ const Comment = () => {
                         />
                         <Column
                             field='user_code'
-                            header='Code Code'
+                            header='User Code'
                         />
                         <Column
                             field='username'

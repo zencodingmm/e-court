@@ -170,7 +170,11 @@ exports.updateHandler = async (req, res) => {
         const hashPassword = bcrypt.hashSync(req.body.password, 10);
 
         if (req.files) {
-            if (!fs.existsSync(path.join(__dirname, '..', '..', '..', '..', 'public', 'users', `${existingUser.user_image}`))) {
+            if (!fs.existsSync(path.join(__dirname, '..', '..', '..', '..', 'public', 'users', `user${existingUser.user_code}`))) {
+                fs.mkdirSync(path.join(__dirname, '..', '..', '..', '..', 'public', 'users', `user${existingUser.user_code}`));
+            }
+
+            if (fs.existsSync(path.join(__dirname, '..', '..', '..', '..', 'public', 'users', `${existingUser.user_image}`))) {
                 fs.rmSync(path.join(__dirname, '..', '..', '..', '..', 'public', 'users', `${existingUser.user_image}`), { recursive: true, force: true });
             }
 

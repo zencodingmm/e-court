@@ -26,7 +26,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 ></link>
             </head>
             <body suppressHydrationWarning={true}>
-                <SessionProvider refetchOnWindowFocus={false}>
+                <SessionProvider
+                    refetchOnWindowFocus={false}
+                    basePath='/api/auth'
+                >
                     <PrimeReactProvider>
                         <LayoutProvider>{children}</LayoutProvider>
                     </PrimeReactProvider>

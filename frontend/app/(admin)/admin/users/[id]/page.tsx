@@ -100,7 +100,7 @@ const UpdateById = () => {
             const { data } = response.data;
 
             if (response.status === 200) {
-                setUserData({ ...data, password: '' });
+                setUserData({ ...data });
             }
         } catch (error) {
             console.log(error);
